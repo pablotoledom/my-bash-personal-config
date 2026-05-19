@@ -1,0 +1,289 @@
+# Enable the subsequent settings only in interactive sessions
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# Path to your oh-my-bash installation.
+export OSH="$HOME/.oh-my-bash"
+
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-bash is loaded.
+OSH_THEME="powerline"
+
+# If you set OSH_THEME to "random", you can ignore themes you don't like.
+# OMB_THEME_RANDOM_IGNORED=("powerbash10k" "wanelo")
+# You can also specify the list from which a theme is randomly selected:
+# OMB_THEME_RANDOM_CANDIDATES=("font" "powerline-light" "minimal")
+
+# Uncomment the following line to use case-sensitive completion.
+# OMB_CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# OMB_HYPHEN_SENSITIVE="false"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_OSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you don't want the repository to be considered dirty
+# if there are untracked files.
+# SCM_GIT_DISABLE_UNTRACKED_DIRTY="true"
+
+# Uncomment the following line if you want to completely ignore the presence
+# of untracked files in the repository.
+# SCM_GIT_IGNORE_UNTRACKED="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.  One of the following values can
+# be used to specify the timestamp format.
+# * 'mm/dd/yyyy'     # mm/dd/yyyy + time
+# * 'dd.mm.yyyy'     # dd.mm.yyyy + time
+# * 'yyyy-mm-dd'     # yyyy-mm-dd + time
+# * '[mm/dd/yyyy]'   # [mm/dd/yyyy] + [time] with colors
+# * '[dd.mm.yyyy]'   # [dd.mm.yyyy] + [time] with colors
+# * '[yyyy-mm-dd]'   # [yyyy-mm-dd] + [time] with colors
+# If not set, the default value is 'yyyy-mm-dd'.
+# HIST_STAMPS='yyyy-mm-dd'
+
+# Uncomment the following line if you do not want OMB to overwrite the existing
+# aliases by the default OMB aliases defined in lib/*.sh
+# OMB_DEFAULT_ALIASES="check"
+
+# Would you like to use another custom folder than $OSH/custom?
+# OSH_CUSTOM=/path/to/new-custom-folder
+
+# To disable the uses of "sudo" by oh-my-bash, please set "false" to
+# this variable.  The default behavior for the empty value is "true".
+OMB_USE_SUDO=true
+
+# To enable/disable display of Python virtualenv and condaenv
+# OMB_PROMPT_SHOW_PYTHON_VENV=true  # enable
+# OMB_PROMPT_SHOW_PYTHON_VENV=false # disable
+
+# To enable/disable Spack environment information
+# OMB_PROMPT_SHOW_SPACK_ENV=true  # enable
+# OMB_PROMPT_SHOW_SPACK_ENV=false # disable
+
+# Which completions would you like to load? (completions can be found in ~/.oh-my-bash/completions/*)
+# Custom completions may be added to ~/.oh-my-bash/custom/completions/
+# Example format: completions=(ssh git bundler gem pip pip3)
+# Add wisely, as too many completions slow down shell startup.
+completions=(
+  git
+  composer
+  ssh
+)
+
+# Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
+# Custom aliases may be added to ~/.oh-my-bash/custom/aliases/
+# Example format: aliases=(vagrant composer git-avh)
+# Add wisely, as too many aliases slow down shell startup.
+aliases=(
+  general
+)
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-bash/plugins/*)
+# Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  bashmarks
+)
+
+# Which plugins would you like to conditionally load? (plugins can be found in ~/.oh-my-bash/plugins/*)
+# Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
+# Example format:
+#  if [ "$DISPLAY" ] || [ "$SSH" ]; then
+#      plugins+=(tmux-autoattach)
+#  fi
+
+# If you want to reduce the initialization cost of the "tput" command to
+# initialize color escape sequences, you can uncomment the following setting.
+# This disables the use of the "tput" command, and the escape sequences are
+# initialized to be the ANSI version:
+#
+#OMB_TERM_USE_TPUT=no
+
+source "$OSH"/oh-my-bash.sh
+
+# Phosphor green style - powerline color overrides
+USER_INFO_THEME_PROMPT_COLOR=22
+USER_INFO_THEME_PROMPT_SECONDARY_COLOR=46
+CWD_THEME_PROMPT_COLOR=22
+SCM_THEME_PROMPT_CLEAN_COLOR=38
+SCM_THEME_PROMPT_DIRTY_COLOR=214
+SCM_THEME_PROMPT_STAGED_COLOR=118
+SCM_THEME_PROMPT_UNSTAGED_COLOR=166
+SCM_THEME_PROMPT_CONFLICT_COLOR=160
+POWERLINE_PROMPT_CHAR="▓▒░"$'\n\001\033[38;5;46m\002❯\001\033[0m\002 '
+
+# OS icon segment for powerline
+function __powerline_os_icon_prompt {
+  local icon
+  case "$OSTYPE" in
+    darwin*)  icon=$(printf '\357\205\271') ;;
+    linux*)
+      local distro_id
+      distro_id=$(. /etc/os-release 2>/dev/null && echo "$ID")
+      case "$distro_id" in
+        debian)  icon=$(printf '\357\214\206') ;;
+        rhel)    icon=$(printf '\357\214\226') ;;
+        arch)    icon=$(printf '\357\214\203') ;;
+        fedora)  icon=$(printf '\357\214\212') ;;
+        opensuse*|sles) icon=$(printf '\357\214\224') ;;
+        *)       icon=$(printf '\357\205\274') ;;
+      esac
+      ;;
+    msys*|cygwin*) icon=$(printf '\357\205\272') ;;
+    *)        icon=$(printf '\357\204\210') ;;
+  esac
+  _omb_util_print "${icon}|0|46"
+}
+
+# Override SCM prompt to add repo icon (GitHub/Bitbucket/Git)
+function __powerline_scm_prompt {
+  local color=""
+  local text_color="-"
+  local scm_prompt=""
+
+  scm_prompt_vars
+
+  if [[ "${SCM_NONE_CHAR}" != "${SCM_CHAR}" ]]; then
+    if [[ "${SCM_DIRTY}" -eq 3 ]]; then
+      color=${SCM_THEME_PROMPT_STAGED_COLOR}
+      text_color=22
+    elif [[ "${SCM_DIRTY}" -eq 2 ]]; then
+      color=${SCM_THEME_PROMPT_UNSTAGED_COLOR}
+      text_color=0
+    elif [[ "${SCM_DIRTY}" -eq 1 ]]; then
+      color=${SCM_THEME_PROMPT_DIRTY_COLOR}
+      text_color=0
+    else
+      color=${SCM_THEME_PROMPT_CLEAN_COLOR}
+      text_color=0
+    fi
+    local git_dir
+    git_dir=$(git rev-parse --git-dir 2>/dev/null)
+    if [[ -n "$git_dir" ]] && {
+         [[ -f "${git_dir}/MERGE_HEAD" ]] ||
+         [[ -f "${git_dir}/CHERRY_PICK_HEAD" ]] ||
+         [[ -d "${git_dir}/rebase-merge" ]] ||
+         [[ -d "${git_dir}/rebase-apply" ]]; }; then
+      color=${SCM_THEME_PROMPT_CONFLICT_COLOR}
+      text_color=0
+    fi
+    local remote_url repo_icon
+    local icon_github=$(printf '\357\202\233')
+    local icon_bitbucket=$(printf '\357\205\261')
+    local icon_git=$(printf '\356\234\245')
+    remote_url=$(git remote get-url origin 2>/dev/null)
+    case "$remote_url" in
+      *github*)    repo_icon=$icon_github ;;
+      *bitbucket*) repo_icon=$icon_bitbucket ;;
+      *)           repo_icon=$icon_git ;;
+    esac
+    if [[ "${SCM_GIT_CHAR}" == "${SCM_CHAR}" ]]; then
+      scm_prompt+="${repo_icon} ${SCM_CHAR}${SCM_BRANCH}${SCM_STATE}"
+    fi
+    _omb_util_print "${scm_prompt}${scm}|${color}|${text_color}"
+  fi
+}
+
+POWERLINE_PROMPT="os_icon user_info scm python_venv cwd"
+
+# Override CWD prompt for phosphor green text on dark green background
+function __powerline_cwd_prompt {
+  _omb_util_print "$(pwd | sed "s|^${HOME}|~|")|${CWD_THEME_PROMPT_COLOR}|46"
+}
+
+# User configuration
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-bash libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-bash
+# users are encouraged to define aliases within the OSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias bashconfig="mate ~/.bashrc"
+# alias ohmybash="mate ~/.oh-my-bash"
+
+# Custom aliases
+alias ls='lsd'
+alias ll='lsd -lh'
+alias la='lsd -a'
+alias l='lsd'
+# alias bat='batcat'  # Only needed on Debian/Ubuntu where bat is named batcat
+
+# ble.sh se carga de forma diferida para no retrasar el inicio de la terminal
+# (se activa al final del .bashrc)
+
+# 1. Define the logic in a standard Bash function
+sudo_toggle_bash() {
+    if [[ $READLINE_LINE == sudo\ * ]]; then
+        READLINE_LINE="${READLINE_LINE#sudo }"
+    else
+        READLINE_LINE="sudo $READLINE_LINE"
+    fi
+    READLINE_POINT=${#READLINE_LINE}
+}
+
+# 2. Register the keybinding (compatible with ble.sh)
+if [[ ${BLE_VERSION-} ]]; then
+    ble/widget/sudo_toggle_bash() {
+        local text=${_ble_edit_str}
+        if [[ $text == sudo\ * ]]; then
+            ble/widget/.replace-range 0 5 ''
+        else
+            ble/widget/.replace-range 0 0 'sudo '
+        fi
+    }
+    ble-bind -f 'C-s' sudo_toggle_bash
+else
+    bind -x '"\e\e": sudo_toggle_bash'
+fi
+
+# Cargar ble.sh al final del .bashrc (requiere Bash 4.0+)
+if [[ -f ~/.local/share/blesh/ble.sh && ${BASH_VERSINFO[0]} -ge 4 ]]; then
+    source ~/.local/share/blesh/ble.sh
+fi
